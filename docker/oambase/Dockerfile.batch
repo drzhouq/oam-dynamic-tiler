@@ -1,5 +1,9 @@
-FROM mojodna/oam-dynamic-tiler
-MAINTAINER Seth Fitzsimmons <seth@mojodna.net>
+FROM satelytics/oambase
+MAINTAINER John Zhou <jzhou@satelytics.com>
+#since the process.sh use temporary folder for intermediate files
+#adding EFS to the temporary files avoid downloading the file to local machine
+#of course, we can use S3 for the same purpose
+#however, efs will be faster. We enned to have EFS_HOST environment variable set in the .env file
 
 ENV DEBIAN_FRONTEND noninteractive
 

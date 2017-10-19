@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-
+#for some reason, if no extra args (metadata) is provided, the script will error out.
+#the orginal version was kept as comment
+#new version removed any reference to args in total 3 places
 # capture arguments (we'll pass them to oin-meta-generator)
 args=("${@:1:$[$#-2]}")
 shift $[$#-2]
@@ -8,7 +10,8 @@ input=$1
 output=$2
 
 THUMBNAIL_SIZE=${THUMBNAIL_SIZE:-300} # target size in KB
-TILER_BASE_URL=${TILER_BASE_URL:-http://tiles.openaerialmap.org}
+#TILER_BASE_URL=${TILER_BASE_URL:-http://tiles.openaerialmap.org}
+TILER_BASE_URL=${TILER_BASE_URL:-http://tiles.satelytics.io}
 
 # Although TMPDIR is usually set by the OS, it doesn't seem to be getting passed through
 # Docker and Node's `spawn()`, so no harm done in just defaulting to `/tmp` in such cases.
@@ -80,7 +83,8 @@ rm -f $source
 
 # 2. generate metadata
 >&2 echo "Generating OIN metadata..."
-metadata=$(oin-meta-generator -u "${http_output}.tif" -m "thumbnail=${http_output}_thumb.png" -m "tms=${tiler_url}/{z}/{x}/{y}.png" -m "wmts=${tiler_url}/wmts" "${args[@]}" $intermediate)
+metadata=$(oin-meta-generator -u "${http_output}.tif" -m "thumbnail=${http_output}_thumb.png" -m "tms=${tiler_url}/{z}/{x}/{y}.png" -m "wmts=${tiler_url}/wmts"  $intermediate)
+#metadata=$(oin-meta-generator -u "${http_output}.tif" -m "thumbnail=${http_output}_thumb.png" -m "tms=${tiler_url}/{z}/{x}/{y}.png" -m "wmts=${tiler_url}/wmts" "${args[@]}" $intermediate)
 
 # 2. upload TIF
 >&2 echo "Uploading..."
@@ -180,9 +184,11 @@ rm -f $warped_vrt
 # 9. create and upload metadata
 >&2 echo "Generating metadata..."
 if [ "$mask" -eq 1 ]; then
-  get_metadata.py --include-mask "${args[@]}" $output | aws s3 cp - ${output}.json --acl public-read
+  get_metadata.py --include-mask  $output | aws s3 cp - ${output}.json --acl public-read
+#  get_metadata.py --include-mask "${args[@]}" $output | aws s3 cp - ${output}.json --acl public-read
 else
-  get_metadata.py "${args[@]}" $output | aws s3 cp - ${output}.json --acl public-read
+  get_metadata.py  $output | aws s3 cp - ${output}.json --acl public-read
+#  get_metadata.py "${args[@]}" $output | aws s3 cp - ${output}.json --acl public-read
 fi
 
 # 10. Upload OIN metadata

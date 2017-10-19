@@ -12,7 +12,6 @@ body, #map {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-image: url({{ url_for('static', filename='images/transparent.png') }});
 }
 </style>
 </head>
@@ -23,8 +22,10 @@ var map = L.map("map", {
   scrollWheelZoom: false,
   attributionControl: false,
   keyboardPanOffset: 256  });
-
-$.getJSON("{{ tilejson_url }}", function(data) {
+var metaUrl = window.location.pathname;
+metaUrl = metaUrl.substr(0, metaUrl.lastIndexOf("/"));
+//$.getJSON("{{ tilejson_url }}", function(data) {
+$.getJSON(metaUrl, function(data) {
   // provide a default location in the hash, not the L.map (since that will
   // load before L.Hash takes control)
   if (!location.hash) {

@@ -65,9 +65,13 @@ RUN \
 
 WORKDIR /var/task
 
+#RUN \
+#  strip lib/libgdal.so.20.3.0 && \
+#  strip lib/libproj.so.12.0.0
+
 RUN \
-  strip lib/libgdal.so.20.3.0 && \
-  strip lib/libproj.so.12.0.0
+  strip lib/libgdal.so && \
+  strip lib/libproj.so
 
 RUN \
   zip --symlinks \

@@ -1,14 +1,14 @@
 
 {
-  "name": "oam-dynamic-tiler",
+  "name": "dynamic-tiler",
   "description": "Dynamic tiling of raster data",
   "memory": 1536,
   "timeout": 15,
-  "role": "arn:aws:iam::670261699094:role/tiler_lambda_function",
+  "role": "arn:aws:iam::534228481105:role/tiler_lambda_function",
   "environment": {
-    "S3_BUCKET": "oam-dynamic-tiler-tmp",
+    "S3_BUCKET": "satelytics-dynamic-tiler",
     "S3_PREFIX": "sources/",
-    "SERVER_NAME": "tiles.dev.openaerialmap.org",
+    "SERVER_NAME": "satelytics-dynamic-tiler.s3-website-us-east-1.amazonaws.com",
     "CPL_TMPDIR": "/tmp",
     "GDAL_CACHEMAX": "512",
     "GDAL_DISABLE_READDIR_ON_OPEN": "TRUE",

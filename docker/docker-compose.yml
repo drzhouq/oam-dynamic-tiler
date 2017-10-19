@@ -1,0 +1,21 @@
+version: '2'
+services:
+  gdalbase:
+    build:
+       context: gdalbase
+       dockerfile: Dockerfile
+    image: satelytics/gdalbase
+  oambase:
+    build:
+       context: ../.
+       dockerfile: docker/oambase/Dockerfile
+    env_file: ../.env
+    image: satelytics/oambase
+  oamserver:
+    build:
+       context: ../.
+       dockerfile: docker/oamserver/Dockerfile
+    image: satelytics/oamserver
+    env_file: ../.env
+    ports:
+      - "8002:8000"

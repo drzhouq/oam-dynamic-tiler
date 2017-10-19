@@ -1,9 +1,0 @@
-version: '2'
-services:
-  web:
-    build: .
-    env_file: .env
-    environment:
-      SERVER_NAME: 172.16.142.145:8002
-    ports:
-      - "8002:8000"

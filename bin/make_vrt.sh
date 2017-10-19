@@ -34,13 +34,14 @@ set -u
 PATH=$(cd $(dirname "$0"); pwd -P):$PATH
 
 http_source=$(sed 's|s3://\([^/]*\)/|http://\1.s3.amazonaws.com/|' <<< $source)
+echo $http_source
 zoom=$(get_zoom.py ${source})
 pixels=$[2 ** ($zoom + 8)]
 
 if [[ "$http_source" =~ https?:// ]]; then
   http_source="/vsicurl/${http_source}"
 fi
-
+echo $http_source
 gdalwarp \
   ${http_source} \
   $output \

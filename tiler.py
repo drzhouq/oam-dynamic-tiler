@@ -95,8 +95,8 @@ def make_window(src_tile_zoom, tile):
 
     # y, x (rows, columns)
     # window is measured in pixels at src_tile_zoom
-    return [[top - (top - (256 * y)), top - (top - ((256 * y) + int(256 * dy)))],
-            [256 * x, (256 * x) + int(256 * dx)]]
+    return ((top - (top - (256 * y)), top - (top - ((256 * y) + int(256 * dy)))),
+            (256 * x, (256 * x) + int(256 * dx)))
 
 
 def read_masked_window(source, tile, scale=1):

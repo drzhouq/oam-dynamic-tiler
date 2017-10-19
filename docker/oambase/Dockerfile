@@ -1,6 +1,6 @@
 # See https://github.com/mojodna/docker-gdal22
-FROM quay.io/mojodna/gdal22
-MAINTAINER Seth Fitzsimmons <seth@mojodna.net>
+FROM satelytics/gdalbase
+MAINTAINER John Zhou <jzhou@satelytics.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -30,8 +30,9 @@ COPY requirements.txt /opt/oam-dynamic-tiler/requirements.txt
 
 WORKDIR /opt/oam-dynamic-tiler
 
-RUN pip install -U numpy && \
-  pip install -U --no-binary :all: rasterio>=1.0a6 && \
+RUN pip install --upgrade pip && \ 
+  pip install -U numpy && \
+  pip install -U --no-binary :all: "rasterio>=1.0a6" && \
   pip install -r requirements.txt && \
   pip install -U awscli && \
   rm -rf /root/.cache
@@ -51,9 +52,9 @@ ENV VSI_CACHE TRUE
 ENV VSI_CACHE_SIZE 536870912
 ENV CURL_CA_BUNDLE /etc/ssl/certs/ca-certificates.crt
 
-COPY . /opt/oam-dynamic-tiler
+# has to be specific, cannot just copy everything there
+COPY bin /opt/oam-dynamic-tiler/bin
 
-# TODO put this in oam-dynamic-tiler-server
 # USER nobody
 # EXPOSE 8000
 # ENTRYPOINT ["gunicorn", "-k", "gevent", "-b", "0.0.0.0", "--access-logfile", "-", "app:app"]
